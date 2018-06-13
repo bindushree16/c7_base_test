@@ -64,3 +64,160 @@ jobs:
            - pip3.6 --version
            - rpm -qi python-devel 
            - pip show pyopenssl          
+        
+- name:  c7all-test
+   type: runSh
+   steps:
+     - IN: c7_base-test
+     - TASK:
+         runtime:
+           options:
+             imageName: "drydock/u16all"
+             imageTag: master
+         script:
+            - shippable_service cassandra start
+            - shippable_service cassandra stop
+            - shippable_service couchdb start
+            - sudo -i -u couchdb /opt/couchdb/bin/couchdb 2>&1 >/dev/null &
+            - sleep 5
+            - curl http://127.0.0.1:5984/            
+            - shippable_service couchdb stop
+            - shippable_service elasticsearch start
+            - shippable_service elasticsearch stop
+            - shippable_service memcached start
+            - shippable_service memcached stop
+            - shippable_service mongodb start
+            - shippable_service mongodb stop
+            - shippable_service mysql start
+            - shippable_service mysql stop
+            - shippable_service neo4j start
+            - shippable_service neo4j stop
+            - shippable_service postgres start
+            - shippable_service postgres stop
+            - shippable_service rabbitmq start
+            - shippable_service rabbitmq stop
+            - shippable_service redis start
+            - shippable_service redis stop
+            - shippable_service riak start
+            - shippable_service riak stop
+            - shippable_service selenium start
+            - shippable_service selenium stop
+            - psql --version
+            - java -jar /usr/local/selenium/selenium-server-standalone-3.11.1.jar --version
+            - sqlite3 --version
+            - mysql --version
+            - elasticsearch --version
+            - memcached --version
+            - riak version
+            - rabbitmq-server | grep rabbitmq-server
+            - redis-server --version
+            - mongod --version
+            - cassandra -v  
+            - /var/lib/neo4j/bin/neo4j version        
+           
+
+ - name: c7cppall-test
+   type: runSh
+   dependencyMode: strict
+   steps:
+     - IN: c7all_cuchdb_test_runCI   
+     - IN: c7all_cssand_test_runCI
+     - IN: c7all_elasticsearch_test_runCI
+     - IN: c7all_memcached_test_runCI
+     - IN: c7all_riak_test_runCI
+     - TASK:
+         runtime:
+           options:
+             imageName: "drydock/c7cppall"
+             imageTag: master
+         script:
+           - gcc --version
+           - clang --version           
+
+
+ - name: c7javall-test
+   type: runSh
+   dependencyMode: strict
+   steps:
+     - IN: c7all_cuchdb_test_runCI   
+     - IN: c7all_cssand_test_runCI
+     - IN: c7all_elasticsearch_test_runCI
+     - IN: c7all_memcached_test_runCI
+     - IN: c7all_riak_test_runCI   
+     - TASK:
+         runtime:
+           options:
+             imageName: "drydock/c7javall"
+             imageTag: master
+         script:
+           - shipctl jdk set openjdk7
+           - shipctl jdk set openjdk8
+           - shipctl jdk set openjdk9
+           - shipctl jdk set oraclejdk8
+           - shipctl jdk set oraclejdk10
+           - ant -version
+           - mvn --version
+           - gradle --version
+           
+
+  - name: c7nodall-testing
+    type: runSh
+    dependencyMode: strict
+    steps:
+      - IN: c7all_cuchdb_test_runCI   
+      - IN: c7all_cssand_test_runCI
+      - IN: c7all_elasticsearch_test_runCI
+      - IN: c7all_memcached_test_runCI
+      - IN: c7all_riak_test_runCI
+      - TASK:
+          runtime:
+            options:
+              imageName: "drydock/c7nodall"
+              imageTag: master
+          script:
+         
+            - grunt --version
+            - mocha --version    
+            - vows --version
+            - casperjs --version
+            - phantomjs --version
+            - bower --version
+            - npm --version
+            - node --version
+            - nvm ls v9.11.1
+            - nvm ls v8.11.2
+            - nvm ls v7.10.1
+            - nvm ls v6.14.2
+            - nvm ls v5.12.0
+            - nvm ls v4.9.1
+            - nvm ls v10.2.1           
+            
+
+
+ - name: c7pytall
+   type: runSh
+   dependencyMode: strict
+   steps:
+     - IN: c7all_cuchdb_test_runCI   
+     - IN: c7all_cssand_test_runCI
+     - IN: c7all_elasticsearch_test_runCI
+     - IN: c7all_memcached_test_runCI
+     - IN: c7all_riak_test_runCI
+     - TASK:
+         runtime:
+           options:
+             imageName: "drydock/c7pytall"
+             imageTag: master
+         script:
+           - python2.3 -V
+           - python2.6 -V
+           - python2.7 -V 
+           - python3.1 -V
+           - python3.2 -V
+           - python3.3 -V 
+           - python3.4 -V
+           - python3.5 -V
+           - python3.6 -V
+           - pip --version
+           - virtualenv --version            
+           
