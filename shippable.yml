@@ -120,11 +120,7 @@ jobs:
    type: runSh
    dependencyMode: strict
    steps:
-     - IN: c7all_cuchdb_test_runCI   
-     - IN: c7all_cssand_test_runCI
-     - IN: c7all_elasticsearch_test_runCI
-     - IN: c7all_memcached_test_runCI
-     - IN: c7all_riak_test_runCI
+     - IN: c7all-test
      - TASK:
          runtime:
            options:
@@ -139,11 +135,7 @@ jobs:
    type: runSh
    dependencyMode: strict
    steps:
-     - IN: c7all_cuchdb_test_runCI   
-     - IN: c7all_cssand_test_runCI
-     - IN: c7all_elasticsearch_test_runCI
-     - IN: c7all_memcached_test_runCI
-     - IN: c7all_riak_test_runCI   
+     - IN: c7all-test  
      - TASK:
          runtime:
            options:
@@ -164,12 +156,7 @@ jobs:
     type: runSh
     dependencyMode: strict
     steps:
-      - IN: c7all_cuchdb_test_runCI   
-      - IN: c7all_cssand_test_runCI
-      - IN: c7all_elasticsearch_test_runCI
-      - IN: c7all_memcached_test_runCI
-      - IN: c7all_riak_test_runCI
-      - TASK:
+      - IN: c7all-test
           runtime:
             options:
               imageName: "drydock/c7nodall"
@@ -198,11 +185,7 @@ jobs:
    type: runSh
    dependencyMode: strict
    steps:
-     - IN: c7all_cuchdb_test_runCI   
-     - IN: c7all_cssand_test_runCI
-     - IN: c7all_elasticsearch_test_runCI
-     - IN: c7all_memcached_test_runCI
-     - IN: c7all_riak_test_runCI
+     - IN: c7all-test
      - TASK:
          runtime:
            options:
