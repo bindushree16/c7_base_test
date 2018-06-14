@@ -66,10 +66,10 @@ jobs:
            - pip show pyopenssl          
         
 - name: c7all-test
-   type: runSh
-   steps:
-     - IN: c7_base-test
-     - TASK:
+  type: runSh
+  steps:
+    - IN: c7_base-test
+    - TASK:
          runtime:
            options:
              imageName: "drydock/u16all"
