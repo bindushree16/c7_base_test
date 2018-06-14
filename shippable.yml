@@ -65,7 +65,7 @@ jobs:
            - rpm -qi python-devel 
            - pip show pyopenssl          
         
-- name:  c7all-test
+- name: c7all-test
    type: runSh
    steps:
      - IN: c7_base-test
